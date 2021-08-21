@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Buyer } from 'src/user.entity';
@@ -17,17 +17,36 @@ export class BuyerService {
         return this.BuyerRepository.find();
       }
     
-      FindOne(id: string): Promise<Buyer> {
-        return this.BuyerRepository.findOne(id);
+      FindOne(userId: string): Promise<Buyer> {
+        return this.BuyerRepository.findOne(userId);
       }
       async Create(buyerDto:BuyerDto){
         await this.BuyerRepository.save(buyerDto);
       }
-      async Update(id:string,buyerDto:BuyerDto){
-        await this.BuyerRepository.update(id,buyerDto)
-      }
-
-      async Delete(id: string): Promise<void> {
-        await this.BuyerRepository.delete(id);
-      }
+      async Update(BuyerDto:BuyerDto){
+        let info;
+        try {
+            info = await this.BuyerRepository.update({ id: BuyerDto.userId }, BuyerDto);
+        }
+        catch (error) {
+            throw new NotFoundException('Could not find Seller_ID Info');
+        }
+        if (!info) {
+            throw new NotFoundException('Could not find Seller_ID Info');
+        }
+        return info;
+    }
+    async Delete(@Param('userId') userId): Promise<void> {
+        let info;
+        try {
+            info = await this.BuyerRepository.delete(userId);
+        }
+        catch (error) {
+            throw new NotFoundException('Could not find Seller_ID Info');
+        }
+        if (!info) {
+            throw new NotFoundException('Could not find Seller_ID Info');
+        }
+        return info;
+    }
 }

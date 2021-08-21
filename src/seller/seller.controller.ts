@@ -6,12 +6,12 @@ import { Seller } from 'interface/user.interface';
 export class SellerController {
     constructor(private readonly sellerService: SellerService){}
 
-    @Get('/:id')
+    @Get('/:userId')
     async findAll(): Promise<any[]> {
         return [];}
 
-    async Findone(@Param('id') id:string){
-        return await this.sellerService.FindOne(id);
+    async Findone(@Param('userId') userId:string){
+        return await this.sellerService.FindOne(userId);
     }
 
     @Post('Create')
@@ -22,13 +22,13 @@ export class SellerController {
     // @Put('/:id')
     // async Updateall(@Param('id') id: string, @Body() updatesellerDto: SellerDto){}
 
-    @Patch('/:id')
-    async Update(@Param('id') id: string, @Body() updatesellerDto: SellerDto){
-        return this.sellerService.Update(id,updatesellerDto);
+    @Patch('/:userId')
+    async Update(@Body() updatesellerDto: SellerDto){
+        return this.sellerService.Update(updatesellerDto);
     }
 
-    @Delete('/:id')
-    async Delete(@Param('id') id:string){
-        return this.sellerService.Delete(id);
+    @Delete('/:userId')
+    async Delete(@Param('userId') userId:string){
+        return this.sellerService.Delete(userId);
     }
 }

@@ -12,6 +12,7 @@ export class Buyer{
     @Column({length:11})
     phonenumber: string;
 }
+@Entity()
 export class Seller{
     @PrimaryGeneratedColumn()
     id: string;

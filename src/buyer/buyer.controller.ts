@@ -15,7 +15,7 @@ export class BuyerController {
             
         });}
 
-    async Findone(@Param('id') id:string){
+    async Findone(@Param('userId') id:string){
         return await this.buyerSerivce.FindOne(id);
     }
     /*구매자 정보 생성*/
@@ -28,12 +28,12 @@ export class BuyerController {
     // async Updateall(@Body() updatebuyerDto : BuyerDto){}
 
     @Patch('/:id')
-    async Update(@Param() id:string, @Body() updatebuyerDto: BuyerDto){
-        await this.buyerSerivce.Update(id,updatebuyerDto);
+    async Update( @Body() updatebuyerDto: BuyerDto){
+        await this.buyerSerivce.Update(updatebuyerDto);
     }
 
     @Delete('/:id')
-    async Delete(@Param('id') id){
+    async Delete(@Param('userId') id){
         await this.buyerSerivce.Delete(id);
     }
     
