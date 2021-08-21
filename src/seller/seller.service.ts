@@ -14,8 +14,8 @@ export class SellerService {
         return this.SellerRepository.find();
     }
     
-    async FindOne(id: string): Promise<Seller> {
-        return await this.SellerRepository.findOne(id);
+    async FindOne(userId: string): Promise<Seller> {
+        return await this.SellerRepository.findOne(userId);
     }
 
     async Create(sellerDto:SellerDto){

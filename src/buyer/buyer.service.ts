@@ -1,8 +1,8 @@
 import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Buyer } from 'src/user.entity';
-import { BuyerDto } from 'dto/User.dto';
+import { Buyer } from 'src/entity/user.entity';
+import { BuyerDto } from 'src/dto/User.dto';
 
 @Injectable()
 export class BuyerService {
@@ -36,7 +36,7 @@ export class BuyerService {
         }
         return info;
     }
-    async Delete(@Param('userId') userId): Promise<void> {
+    async Delete(userId:string): Promise<void> {
         let info;
         try {
             info = await this.BuyerRepository.delete(userId);
