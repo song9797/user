@@ -1,32 +1,30 @@
-import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Buyer } from 'src/entity/user.entity';
+import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { BuyerDto } from 'src/dto/User.dto';
+import { Buyer, BuyerDocument } from 'src/schemas/buyer.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class BuyerService {
     constructor(
-        @InjectRepository(Buyer)
-        private BuyerRepository: Repository<Buyer>,
-    ){
-      this.BuyerRepository=BuyerRepository
-    }
+        @InjectModel(Buyer.name) private buyerModel: Model<BuyerDocument>)  
+    {}
 
-      FindAll(): Promise<Buyer[]> {
-        return this.BuyerRepository.find();
+      async FindAll(): Promise<Buyer[]> {
+        return this.buyerModel.find();
       }
     
-      FindOne(userId: string): Promise<Buyer> {
-        return this.BuyerRepository.findOne(userId);
+      async FindOne(userId: string): Promise<Buyer> {
+        return this.buyerModel.findOne({userId});
       }
       async Create(buyerDto:BuyerDto){
-        await this.BuyerRepository.save(buyerDto);
+        const info = new this.buyerModel(buyerDto);
+        return info.save();
       }
       async Update(BuyerDto:BuyerDto){
         let info;
         try {
-            info = await this.BuyerRepository.update({ id: BuyerDto.userId }, BuyerDto);
+            info = await this.buyerModel.updateOne({ userid: BuyerDto.userId }, BuyerDto);
         }
         catch (error) {
             throw new NotFoundException('Could not find Seller_ID Info');
@@ -39,7 +37,7 @@ export class BuyerService {
     async Delete(userId:string): Promise<void> {
         let info;
         try {
-            info = await this.BuyerRepository.delete(userId);
+            info = await this.buyerModel.deleteOne({userId});
         }
         catch (error) {
             throw new NotFoundException('Could not find Seller_ID Info');

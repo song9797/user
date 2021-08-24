@@ -5,16 +5,32 @@ import { BuyerController } from './buyer/buyer.controller';
 import { BuyerService } from './buyer/buyer.service';
 import { SellerController } from './seller/seller.controller';
 import { SellerService } from './seller/seller.service';
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { Buyer, Seller } from './entity/user.entity';
-// import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
-import { AuthSellerService } from './auth-seller/auth-seller.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Buyer, BuyerSchema, } from './schemas/buyer.schema';
+import { Seller, SellerSchema } from './schemas/seller.schema';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Buyer,Seller])],
+  imports: [
+  ConfigModule.forRoot({
+    isGlobal:true,
+    envFilePath: '.env',
+  }),
+  MongooseModule.forRootAsync({
+    imports:[ConfigModule],
+    useFactory: async (config: ConfigService) => ({
+      uri: config.get('DB_URL'),
+      useNewUrlParser:true,
+      useUnifiedTopology:true,
+    }),
+    inject:[ConfigService]
+  }),
+  MongooseModule.forFeature([{name:Buyer.name, schema: BuyerSchema},{name: Seller.name, schema: SellerSchema}])
+],
   controllers: [AppController, BuyerController, SellerController, AuthController],
-  providers: [AppService, BuyerService, SellerService, AuthService, AuthSellerService],
+  providers: [AppService, BuyerService, SellerService, AuthService],
 })
 export class AppModule {}

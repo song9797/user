@@ -1,14 +1,14 @@
 import { Controller, Get, Query, Post, Body, Put, Param, Delete, Patch } from '@nestjs/common';
-import { SellerDto } from 'dto/User.dto'; 
+import { SellerDto } from 'src/dto/User.dto'; 
 import { SellerService } from './seller.service';
-import { Seller } from 'interface/user.interface';
+import { Seller } from 'src/interface/user.interface';
 @Controller('seller')
 export class SellerController {
     constructor(private readonly sellerService: SellerService){}
 
     @Get('/:userId')
-    async findAll(): Promise<any[]> {
-        return [];}
+    // async findAll(): Promise<any[]> {
+    //     return [];}
 
     async Findone(@Param('userId') userId:string){
         return await this.sellerService.FindOne(userId);

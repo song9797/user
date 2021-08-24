@@ -1,7 +1,7 @@
 import { Controller, Get, Query, Post, Body, Put, Param, Delete, Patch } from '@nestjs/common';
-import { BuyerDto } from 'dto/User.dto';
+import { BuyerDto } from 'src/dto/User.dto';
 import { BuyerService } from './buyer.service';
-import { Buyer } from 'interface/user.interface';
+import { Buyer } from 'src/interface/user.interface';
 
 @Controller('buyer')
 export class BuyerController {

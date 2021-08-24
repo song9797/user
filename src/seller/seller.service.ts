@@ -1,30 +1,31 @@
 import { Injectable, NotFoundException, Param } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Buyer, Seller } from 'src/entity/user.entity';
 import { SellerDto } from 'src/dto/User.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Seller, SellerDocument } from 'src/schemas/seller.schema';
+import { Model } from 'mongoose';
 @Injectable()
 export class SellerService {
     constructor(
-        @InjectRepository(Seller)
-        private SellerRepository: Repository<Seller>,
+        @InjectModel(Seller.name)
+        private sellerModel: Model<SellerDocument>
     ){}
 
-    FindAll(): Promise<Seller[]> {
-        return this.SellerRepository.find();
+    async FindAll(): Promise<Seller[]> {
+        return this.sellerModel.find();
     }
     
     async FindOne(userId: string): Promise<Seller> {
-        return await this.SellerRepository.findOne(userId);
+        return await this.sellerModel.findOne({userId});
     }
 
     async Create(sellerDto:SellerDto){
-        await this.SellerRepository.save(sellerDto)
+        const info= new this.sellerModel(sellerDto)
+        info.save();
     }
     async Update(sellerDto:SellerDto){
         let info;
         try {
-            info = await this.SellerRepository.update({ id: sellerDto.userId }, sellerDto);
+            info = await this.sellerModel.updateOne({ userid: sellerDto.userId }, sellerDto);
         }
         catch (error) {
             throw new NotFoundException('Could not find Seller_ID Info');
@@ -34,10 +35,10 @@ export class SellerService {
         }
         return info;
     }
-    async Delete(@Param('userId') userId): Promise<void> {
+    async Delete(userId:string): Promise<void> {
         let info;
         try {
-            info = await this.SellerRepository.delete(userId);
+            info = await this.sellerModel.deleteOne({userId});
         }
         catch (error) {
             throw new NotFoundException('Could not find Seller_ID Info');
