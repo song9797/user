@@ -11,10 +11,10 @@ import { SellerService } from 'src/seller/seller.service';
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectModel(Seller.name)
-        private sellerModel: Model<SellerDocument>,
-        @InjectModel(Buyer.name)
-        private buyerModel: Model<BuyerDocument>,
+        // @InjectModel(Seller.name)
+        // private sellerModel: Model<SellerDocument>,
+        // @InjectModel(Buyer.name)
+        // private buyerModel: Model<BuyerDocument>,
         private readonly sellerService: SellerService,
         private readonly buyerSerivce:BuyerService
     ){}

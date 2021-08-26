@@ -15,7 +15,7 @@ export class BuyerService {
     //   }
     
       async FindOne(userId: string): Promise<Buyer> {
-        return this.buyerModel.findOne({userId});
+        return this.buyerModel.findOne({userId}).exec();
       }
 
       async Create(buyer:BuyerDto){

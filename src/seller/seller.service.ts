@@ -11,7 +11,7 @@ export class SellerService {
     // }
     
     async FindOne(userId: string): Promise<Seller> {
-        return await this.sellerModel.findOne({userId});
+        return await this.sellerModel.findOne({userId}).exec();
     }
 
     async Create(seller:SellerDto){
