@@ -8,12 +8,12 @@ export class BuyerController {
     constructor(private readonly buyerSerivce:BuyerService){}
     /*구매자 전체 조회*/
     @Get('/:id')
-    async findAll(): Promise<Buyer[]> {
-        const buyerdata = await this.buyerSerivce.FindAll();
-        return Object.assign({
-            data: buyerdata,
+    // async findAll(): Promise<Buyer[]> {
+    //     const buyerdata = await this.buyerSerivce.FindAll();
+    //     return Object.assign({
+    //         data: buyerdata,
             
-        });}
+    //     });}
 
     async Findone(@Param('userId') id:string){
         return await this.buyerSerivce.FindOne(id);

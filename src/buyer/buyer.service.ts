@@ -10,21 +10,23 @@ export class BuyerService {
         @InjectModel(Buyer.name) private buyerModel: Model<BuyerDocument>)  
     {}
 
-      async FindAll(): Promise<Buyer[]> {
-        return this.buyerModel.find();
-      }
+    //   async FindAll(): Promise<Buyer[]> {
+    //     return this.buyerModel.find();
+    //   }
     
       async FindOne(userId: string): Promise<Buyer> {
         return this.buyerModel.findOne({userId});
       }
-      async Create(buyerDto:BuyerDto){
-        const info = new this.buyerModel(buyerDto);
+
+      async Create(buyer:BuyerDto){
+        const info = new this.buyerModel(buyer);
         return info.save();
       }
-      async Update(BuyerDto:BuyerDto){
+
+      async Update(Buyer:BuyerDto){
         let info;
         try {
-            info = await this.buyerModel.updateOne({ userid: BuyerDto.userId }, BuyerDto);
+            info = await this.buyerModel.updateOne({ userid: Buyer.userId }, Buyer);
         }
         catch (error) {
             throw new NotFoundException('Could not find Seller_ID Info');
@@ -34,7 +36,8 @@ export class BuyerService {
         }
         return info;
     }
-    async Delete(userId:string): Promise<void> {
+
+    async Delete(userId:string){
         let info;
         try {
             info = await this.buyerModel.deleteOne({userId});

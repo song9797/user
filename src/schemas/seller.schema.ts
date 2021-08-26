@@ -6,15 +6,17 @@ export type SellerDocument = Seller & Document;
 @Schema()
 export class Seller {
   @Prop()
-  userid: string;
+  userId: string;
   @Prop()
   name: string;
   @Prop()
   password: string;
   @Prop()
-  address: string;
-  @Prop()
   phonenumber: string;
+  @Prop()
+  business_number: string;
+  @Prop()
+  account_number: number;
 }
 
 export const SellerSchema = SchemaFactory.createForClass(Seller);
