@@ -15,7 +15,7 @@ export class BuyerController {
             
     //     });}
 
-    async Findone(@Param('userId') id:string){
+    async Findone(@Param('userId') id:string): Promise<Buyer>{
         return await this.buyerSerivce.FindOne(id);
     }
     /*구매자 정보 생성*/
